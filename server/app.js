@@ -1,38 +1,23 @@
-const express = require('express')
-const path = require('path')
-const { Product, User } = require('./db');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const path = require("path");
+const app = express();
+require("dotenv").config();
 
-const app = express()
 app.use(express.json());
 
 // static middleware
-app.use('/dist', express.static(path.join(__dirname, '../dist')))
+app.use("/dist", express.static(path.join(__dirname, "../dist")));
 
+app.get("/", (req, res) => {
+  // API KEY FOR BACKEND
+  console.log(process.env.THIS_API_KEY_IS_FOR_YOUR_BACKEND);
 
-app.get('/', (req, res) => {
-  res.render(
-    path.join(__dirname, '../public/index.html'),
-    { client_id : process.env.client_id });
-}); 
-
-app.get('/api/products', async(req, res, next)=> {
-  try{
-    res.send(await Product.findAll());
-  }
-  catch(ex){
-    next(ex);
-  }
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
-app.use('/api/auth', require('./routes/auth'));
-
-app.use((err, req, res, next)=> {
+app.use((err, req, res, next) => {
   console.log(err);
   res.status(err.status || 500).send({ error: err });
-
 });
 
-
 module.exports = app;
-

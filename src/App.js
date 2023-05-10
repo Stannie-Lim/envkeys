@@ -1,42 +1,10 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchProducts, logout } from './store';
-import { Link, Routes, Route } from 'react-router-dom';
-import Products from './Products';
-import Login from './Login';
-import Register from './Register';
-import Profile from './Profile';
+import React, { useEffect } from "react";
 
-const App = ()=> {
-  const dispatch = useDispatch();
-  const { products, auth } = useSelector(state => state);
-  useEffect(()=> {
-    dispatch(fetchProducts());
-    dispatch(loginWithToken());
-  }, []);
+import { THIS_API_KEY_IS_FOR_FRONTEND } from "../secrets";
 
-  return (
-    <div>
-      <h1><Link to='/'>Acme Product Search</Link></h1>
-      <Link to='/products'>Products ({ products.length })</Link>
-      {
-        !auth.id ? <div>
-          <a href={`https://github.com/login/oauth/authorize?client_id=${window.client_id}`}>Login With Github</a>
-          </div> :
-          <div>
-          <button onClick={ ()=> dispatch(logout())}>Logout {auth.username } Your lucky number is { auth.luckyNumber }</button>
-          <Link to='/profile'>Profile</Link>
-          </div>
-      }
-      <Routes>
-        <Route path='/products' element={ <Products /> } />
-        <Route path='/login' element={ <Login /> } />
-        <Route path='/register' element={ <Register /> } />
-        <Route path='/profile' element={ <Profile /> } />
-        <Route path='/products/:filterString' element={ <Products /> } />
-      </Routes>
-    </div>
-  );
+const App = () => {
+  // API KEY FOR FRONTEND
+  return <div>{THIS_API_KEY_IS_FOR_FRONTEND}</div>;
 };
 
 export default App;
